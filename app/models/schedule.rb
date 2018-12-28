@@ -37,8 +37,8 @@ class Schedule
 
   def datetime_start=(str)
     @datetime_start = begin
-      DateTime.parse(str || '')
-    rescue ArgumentError
+      DateTime.parse(str)
+    rescue ArgumentError, TypeError
       nil
     end
   end
