@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get '/index', to: 'home#index'
+  get '/schedule', to: 'home#schedule'
   post '/schedule', to: 'home#schedule'
 
-  root to: 'home#index'
+  root to: 'home#schedule'
 end

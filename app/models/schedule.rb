@@ -8,7 +8,8 @@ class Schedule
               quarterly:  { increment: 3.months,  items_count: 4  },
               yearly:     { increment: 1.year,    items_count: 3  } }.freeze
 
-  attr_accessor :datetime_start, :frequency, :items_count, :schedule
+  attr_reader :datetime_start, :frequency, :items_count
+  attr_accessor :schedule
 
   validates :frequency, inclusion: { in: PRESETS.keys }
   validates :items_count, numericality: { only_integer: true,
@@ -18,21 +19,36 @@ class Schedule
 
   def initialize(attributes = {})
     super
-    @datetime_start = attributes[:datetime_start] || DateTime.now
-    @frequency = attributes[:frequency] || PRESETS.keys.first
-    @items_count = attributes[:items_count]
-    @items_count ||= PRESETS[self.frequency][:items_count]
-    @schedule = []
+    self.datetime_start = attributes[:datetime_start]
+    self.frequency = attributes[:frequency]
+    self.items_count = attributes[:items_count]
+    self.schedule = []
   end
 
   def generate_schedule
-    return self unless valid?
+    return false unless valid?
     current_datetime = datetime_start
-    10.times do
+    items_count.times do
       schedule << current_datetime
       current_datetime += PRESETS[frequency][:increment]
     end
     self
+  end
+
+  def datetime_start=(str)
+    @datetime_start = begin
+      DateTime.parse(str || '')
+    rescue ArgumentError
+      DateTime.now
+    end
+  end
+
+  def frequency=(str)
+    @frequency = str&.to_sym || PRESETS.keys.first
+  end
+
+  def items_count=(str)
+    @items_count = str.to_i || PRESETS[self.frequency][:items_count]
   end
 
   private

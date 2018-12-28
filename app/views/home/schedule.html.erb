@@ -1,0 +1,27 @@
+<%= form_tag schedule_path do %>
+  <div>
+    <%= datetime_field_tag :datetime_start, default_datetime_start(@schedule.datetime_start) %>
+  </div>
+
+  <div>
+    <%= select_tag :frequency, frequency_options(@schedule.frequency) %>
+  </div>
+
+  <div>
+    <%= number_field_tag :items_count, default_items_count(@schedule.items_count), min: 1 %>
+  </div>
+
+  <br/>
+
+  <div>
+    <%= submit_tag 'generate' %>
+  </div>
+<% end %>
+
+<br/>
+
+<% unless @schedule.schedule.blank? %>
+  <% @schedule.schedule.each do |s| %>
+    <div><%= s.strftime('%m/%d/%Y, %I:%M %p') %></div>
+  <% end %>
+<% end %>
