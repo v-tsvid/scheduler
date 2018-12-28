@@ -9,7 +9,7 @@ module HomeHelper
   end
 
   def default_items_count(current_count)
-    return '14' if current_count == 0 || current_count.blank?
+    return 14 if current_count == 0 || current_count.blank?
     current_count
   end
 end

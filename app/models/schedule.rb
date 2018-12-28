@@ -39,7 +39,7 @@ class Schedule
     @datetime_start = begin
       DateTime.parse(str || '')
     rescue ArgumentError
-      DateTime.now
+      nil
     end
   end
 
@@ -48,7 +48,7 @@ class Schedule
   end
 
   def items_count=(str)
-    @items_count = str.to_i || PRESETS[self.frequency][:items_count]
+    @items_count = str || PRESETS[self.frequency][:items_count]
   end
 
   private
