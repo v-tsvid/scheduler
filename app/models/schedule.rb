@@ -10,11 +10,11 @@ class Schedule
 
   attr_accessor :datetime_start, :frequency, :items_count, :schedule
 
-  validates_presence_of :datetime_start, :frequency
   validates :frequency, inclusion: { in: PRESETS.keys }
   validates :items_count, numericality: { only_integer: true,
                                           greater_than: 0,
                                           allow_blank: true }
+  validate :datetime_start_is_valid
 
   def initialize(attributes = {})
     super
@@ -26,12 +26,20 @@ class Schedule
   end
 
   def generate_schedule
-    return unless valid?
+    return self unless valid?
     current_datetime = datetime_start
     10.times do
       schedule << current_datetime
       current_datetime += PRESETS[frequency][:increment]
     end
     self
+  end
+
+  private
+
+  def datetime_start_is_valid
+    unless datetime_start.is_a? DateTime
+      errors.add(:datetime_start, 'must be a valid date and time')
+    end
   end
 end
