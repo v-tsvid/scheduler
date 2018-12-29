@@ -22,6 +22,6 @@
 
 <% unless @schedule.schedule.blank? %>
   <% @schedule.schedule.each do |s| %>
-    <div><%= s.strftime('%m/%d/%Y, %I:%M %p') %></div>
+    <div><%= schedule_item_formatted(s) %></div>
   <% end %>
 <% end %>

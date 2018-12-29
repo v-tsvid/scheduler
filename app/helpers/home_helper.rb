@@ -12,4 +12,8 @@ module HomeHelper
     return 14 if current_count == 0 || current_count.blank?
     current_count
   end
+
+  def schedule_item_formatted(s)
+    s.strftime('%m/%d/%Y, %I:%M %p')
+  end
 end
